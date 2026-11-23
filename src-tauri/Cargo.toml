@@ -1,0 +1,16 @@
+[package]
+name = "revisai"
+version = "0.1.0"
+description = "Aplicativo local para organizar estudos e revisões"
+authors = ["RevisAI"]
+edition = "2021"
+
+[lib]
+name = "revisai_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }

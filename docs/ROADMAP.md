@@ -1,6 +1,6 @@
 # RevisAI — roadmap
 
-A Etapa 0 (repositório, documentação e padrões de trabalho) foi aprovada pelo usuário e está concluída. Este documento registra o escopo e os critérios de aceite das seis etapas de implementação, ainda não iniciadas. O status atual também é indicado no README. Cada etapa deve ser executada e validada antes do início da próxima. As regras permanentes estão em [`AGENTS.md`](../AGENTS.md); o roteiro completo de prompts e rotinas está em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
+A Etapa 0 (repositório, documentação e padrões de trabalho) foi aprovada pelo usuário e está concluída. A Etapa 1 está implementada e em validação; a janela Tauri nativa ainda não foi executada neste ambiente. As etapas 2 a 6 não foram iniciadas. Cada etapa deve ser executada e validada antes do início da próxima. As regras permanentes estão em [`AGENTS.md`](../AGENTS.md); o roteiro completo de prompts e rotinas está em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
 
 ## Etapa 1 — Fundação desktop
 

@@ -2,7 +2,7 @@
 
 > **Projeto:** RevisAI ("revisa aí")
 > **Repositório desejado:** `RevisAI`, público no GitHub
-> **Situação atual:** repositório local em `main`; Etapa 0 aprovada pelo usuário e concluída. O acesso autenticado ao remoto ainda não foi verificado com sucesso.
+> **Situação atual:** Etapa 0 aprovada e concluída; Etapa 1 em validação na branch `feat/estrutura-inicial`.
 > **Fonte de requisitos:** [`CODEX_PLANO.md`](./CODEX_PLANO.md)
 > **Apresentação do portfólio:** [`README.md`](./README.md)
 
@@ -82,8 +82,8 @@ Alternativa: crie um repositório vazio `RevisAI` no site do GitHub, sem gerar u
 
 | Etapa | Nome sugerido da branch | Entrega | Estado |
 |---|---|---|---|
-| 0 | `main` (exceção: preparação feita diretamente na branch existente) | Git, README, AGENTS.md e padrões | Em validação |
-| 1 | `feat/base-desktop` | Tauri, React, FastAPI e SQLite | Não iniciada |
+| 0 | `main` (exceção: preparação feita diretamente na branch existente) | Git, README, AGENTS.md e padrões | Concluída |
+| 1 | `feat/estrutura-inicial` | Tauri, React, FastAPI, SQLite e interface inicial | Em validação |
 | 2 | `feat/projetos-materiais` | Projetos e biblioteca | Não iniciada |
 | 3 | `feat/ia-organizacao` | Ollama e sugestão de tópicos | Não iniciada |
 | 4 | `feat/resumos-questoes` | Resumos, questões e correção (MVP) | Não iniciada |
@@ -202,8 +202,8 @@ Evite frases como “totalmente pronto” ou “100% offline” sem testar todo 
 
 | Etapa | Status | Branch real | Commit/PR | Testes executados | Validação do usuário |
 |---|---|---|---|---|---|
-| 0 — Git e documentação | Concluída | `main` | `cb1b02c` (base); `docs: conclui etapa 0 e organiza estrutura do projeto` criado nesta execução | `git diff --check` passou; `git check-ignore -v` confirmou regras para segredos, banco, dados privados, modelos e builds; sem testes de aplicação | Aprovada pelo usuário em 2026-11-23 |
-| 1 — Base desktop | Não iniciada | — | — | — | Pendente |
+| 0 — Git e documentação | Concluída | `main` | `cb1b02c`; `2a5a3fe` (`docs: conclui etapa 0 e organiza estrutura do projeto`) | `git diff --check` passou; `git check-ignore -v` confirmou regras para segredos, banco, dados privados, modelos e builds; sem testes de aplicação | Aprovada pelo usuário em 2026-11-23 |
+| 1 — Base desktop | Em validação | `feat/estrutura-inicial` | Sem commit; base `2a5a3fe` | Backend: 5 testes passaram. Frontend: 3 testes passaram, lint e build passaram. `npm audit` e `npm audit --omit=dev`: zero vulnerabilidades. Integração HTTP/CORS e bind `127.0.0.1` verificados. Janela Tauri nativa não executada (Rust/Cargo ausentes). | Pendente |
 | 2 — Materiais | Não iniciada | — | — | — | Pendente |
 | 3 — IA local | Não iniciada | — | — | — | Pendente |
 | 4 — Resumos e questões | Não iniciada | — | — | — | Pendente |
@@ -261,5 +261,15 @@ O Codex pode ler este arquivo dentro do repositório. **Esta conversa não monit
 - Implementado: README para portfólio, regras permanentes em `AGENTS.md`, `.gitignore` para ferramentas e dados locais e `docs/ROADMAP.md` com escopo e critérios de aceite das etapas 1 a 6.
 - Testes: `git diff --check` sem erros; `git check-ignore -v` confirmou padrões para `.env`, banco SQLite, diretórios privados/materiais, modelos locais, `node_modules` e builds Tauri. Nenhum teste de aplicação se aplica à etapa documental.
 - Verificação manual no Windows: documentação aprovada pelo usuário em 2026-11-23.
-- Pendências e limitações: `gh auth status` falhou porque o token está inválido; `git ls-remote origin HEAD` falhou por falta de credenciais. O remoto existente é `https://github.com/augusto-hog/RevisAI.git`; push pendente até autenticação e acesso funcionarem.
-- Próxima ação: reautenticar com `gh auth login -h github.com` e, após confirmar acesso, enviar o commit local para `origin/main`. A Etapa 1 não foi iniciada.
+- Pendências e limitações: na sessão de execução, o Git HTTPS não encontrou credenciais; depois, `gh api repos/augusto-hog/RevisAI/branches/main` confirmou remotamente o commit `2a5a3fe`, que também é o `origin/main` local. Não afirmo que o push foi feito por esta sessão.
+- Próxima ação: Etapa 0 aprovada; Etapa 1 iniciada na branch dedicada.
+
+### 2026-11-23 — Etapa 1 — Fundação desktop
+- Status: Em validação; implementação e testes automatizados executados, aguardando validação do usuário e execução da janela nativa.
+- Branch: `feat/estrutura-inicial`, criada a partir da `main` local; o commit `2a5a3fe` coincide com a referência atual consultada na API do GitHub.
+- Commit ou PR: não criado, conforme instrução do usuário.
+- Implementado: frontend React + TypeScript + Vite + Tailwind, tema escuro inicial e preferência de tema persistida; estado vazio sem dados fictícios; navegação inicial e configurações; API FastAPI local, health check, configurações e migração SQLite; base Tauri 2; documentação de execução e segurança.
+- Testes: backend `python -m pytest` — 5 passaram (com aviso de depreciação `TestClient`/httpx); frontend `npm.cmd run test` — 3 passaram; `npm.cmd run lint` e `npm.cmd run build` passaram; `npm.cmd audit` e `npm.cmd audit --omit=dev` — zero vulnerabilidades; integração HTTP confirmou frontend Vite e módulo React com HTTP 200, `/health` com SQLite ativo, CORS da origem Vite, tema inicial escuro, atualização e persistência de tema e listener em `127.0.0.1:8000`; teste de CORS rejeitou origem não permitida; `git diff --check` e a verificação de whitespace dos arquivos novos passaram.
+- Verificação manual no Windows: API e Vite iniciados e exercitados por HTTP; inspeção visual pelo navegador não concluída. Janela Tauri não executada.
+- Pendências e limitações: Rust/Cargo não instalado neste ambiente; janela nativa e build Tauri não foram validados. `Invoke-WebRequest` OPTIONS e a captura pelo navegador não funcionaram neste ambiente; o preflight foi verificado por `fetch` e a resposta CORS correta foi observada. A consulta de sockets via `Get-NetTCPConnection` foi negada pelo sandbox; `netstat` confirmou o bind em `127.0.0.1`.
+- Próxima ação: validar a janela Tauri em ambiente com Rust/MSVC e revisar a etapa. Não iniciar a Etapa 2 sem autorização.
