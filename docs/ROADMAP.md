@@ -1,8 +1,8 @@
 # RevisAI — roadmap
 
-A Etapa 0 (repositório, documentação e padrões de trabalho) foi aprovada pelo usuário e está concluída. A Etapa 1 está implementada e em validação; a janela Tauri nativa ainda não foi executada neste ambiente. As etapas 2 a 6 não foram iniciadas. Cada etapa deve ser executada e validada antes do início da próxima. As regras permanentes estão em [`AGENTS.md`](../AGENTS.md); o roteiro completo de prompts e rotinas está em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
+A Etapa 0 (repositório, documentação e padrões de trabalho) e a Etapa 1 (fundação desktop) foram aprovadas pelo usuário e estão concluídas. No Windows, o usuário confirmou a abertura do executável e da janela Tauri, tema escuro, navegação, comunicação com FastAPI, persistência das preferências após reinício e ausência de erros observados. As etapas 2 a 6 não foram iniciadas. Cada etapa deve ser executada e validada antes do início da próxima. As regras permanentes estão em [`AGENTS.md`](../AGENTS.md); o roteiro completo de prompts e rotinas está em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
 
-## Etapa 1 — Fundação desktop
+## Etapa 1 — Fundação desktop — Concluída
 
 Implementar a base Tauri 2 + Vite + React + TypeScript, Tailwind CSS e interface escura acessível; backend FastAPI + SQLite; organização `frontend/`, `backend/`, `src-tauri/` e `docs/`. Criar `/api/v1/health`, diretório local de dados, inicialização segura do SQLite e primeira migração. A API deve escutar apenas em `127.0.0.1`. A janela terá navegação para Início, Meus Estudos, Revisões, Metas e Configurações, além de estado vazio real, status do backend e acesso às configurações. Documentar execução separada de frontend, backend e desktop e proteção das chamadas locais antes da distribuição. Não implementar biblioteca ou IA.
 

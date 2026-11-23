@@ -30,6 +30,7 @@ describe('RevisAI foundation', () => {
     expect(await screen.findByRole('heading', { name: 'Seu espaço está pronto.' })).toBeInTheDocument()
     expect(screen.getByRole('status')).toHaveTextContent('Sistema conectado')
     expect(screen.getByText(/API e banco SQLite respondendo/)).toBeInTheDocument()
+    expect(document.documentElement).toHaveAttribute('data-theme', 'dark')
     expect(screen.getByRole('button', { name: /Meus Estudos/ })).toBeDisabled()
   })
 
@@ -40,6 +41,9 @@ describe('RevisAI foundation', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Configurações' }))
     expect(await screen.findByRole('heading', { name: 'Armazenamento local' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Início' }))
+    expect(await screen.findByRole('heading', { name: 'Seu espaço está pronto.' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Configurações' }))
     fireEvent.change(screen.getByLabelText('Tema'), { target: { value: 'light' } })
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(

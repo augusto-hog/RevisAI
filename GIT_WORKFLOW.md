@@ -2,7 +2,7 @@
 
 > **Projeto:** RevisAI ("revisa aí")
 > **Repositório desejado:** `RevisAI`, público no GitHub
-> **Situação atual:** Etapa 0 aprovada e concluída; Etapa 1 em validação na branch `feat/estrutura-inicial`.
+> **Situação atual:** Etapas 0 e 1 aprovadas e concluídas; Etapa 1 na branch `feat/estrutura-inicial`, com commit e publicação autorizados pelo usuário nesta execução.
 > **Fonte de requisitos:** [`CODEX_PLANO.md`](./CODEX_PLANO.md)
 > **Apresentação do portfólio:** [`README.md`](./README.md)
 
@@ -83,14 +83,14 @@ Alternativa: crie um repositório vazio `RevisAI` no site do GitHub, sem gerar u
 | Etapa | Nome sugerido da branch | Entrega | Estado |
 |---|---|---|---|
 | 0 | `main` (exceção: preparação feita diretamente na branch existente) | Git, README, AGENTS.md e padrões | Concluída |
-| 1 | `feat/estrutura-inicial` | Tauri, React, FastAPI, SQLite e interface inicial | Em validação |
+| 1 | `feat/estrutura-inicial` | Tauri, React, FastAPI, SQLite e interface inicial | Concluída |
 | 2 | `feat/projetos-materiais` | Projetos e biblioteca | Não iniciada |
 | 3 | `feat/ia-organizacao` | Ollama e sugestão de tópicos | Não iniciada |
 | 4 | `feat/resumos-questoes` | Resumos, questões e correção (MVP) | Não iniciada |
 | 5 | `feat/revisoes-metas` | Revisões e metas semanais | Não iniciada |
 | 6 | `feat/editais-distribuicao` | Editais, OCR e instalador | Não iniciada |
 
-Estados permitidos: **Não iniciada**, **Em andamento**, **Em validação**, **Concluída**, **Bloqueada**. Não marque `Concluída` antes da aprovação após testes.
+Estados permitidos: **Não iniciada**, **Em andamento**, **Em validação**, **Aguardando aprovação**, **Concluída**, **Bloqueada**. Use **Aguardando aprovação** quando todos os critérios técnicos forem atendidos e faltar a aprovação do usuário; não marque **Concluída** antes dela.
 
 Se a Etapa 0 já foi preparada diretamente na `main`, não é necessário recriar seu histórico: documente essa exceção no diário.
 
@@ -203,7 +203,7 @@ Evite frases como “totalmente pronto” ou “100% offline” sem testar todo 
 | Etapa | Status | Branch real | Commit/PR | Testes executados | Validação do usuário |
 |---|---|---|---|---|---|
 | 0 — Git e documentação | Concluída | `main` | `cb1b02c`; `2a5a3fe` (`docs: conclui etapa 0 e organiza estrutura do projeto`) | `git diff --check` passou; `git check-ignore -v` confirmou regras para segredos, banco, dados privados, modelos e builds; sem testes de aplicação | Aprovada pelo usuário em 2026-11-23 |
-| 1 — Base desktop | Em validação | `feat/estrutura-inicial` | Sem commit; base `2a5a3fe` | Backend: 5 testes passaram. Frontend: 3 testes passaram, lint e build passaram. `npm audit` e `npm audit --omit=dev`: zero vulnerabilidades. Integração HTTP/CORS e bind `127.0.0.1` verificados. Janela Tauri nativa não executada (Rust/Cargo ausentes). | Pendente |
+| 1 — Base desktop | Concluída | `feat/estrutura-inicial` | `b515927cd8e0877eeb6d5e6470d5a21b8f20819c`; [PR #2](https://github.com/augusto-hog/RevisAI/pull/2) aberto para `main` | Backend: 5 testes; frontend: 3 testes; lint, build e `git diff --check` passaram. `.gitignore` validado para dados privados e artefatos. Execução Tauri, janela, tema, navegação, FastAPI, persistência e ausência de erros confirmados manualmente pelo usuário no Windows. | Aprovada pelo usuário em 2026-11-23 |
 | 2 — Materiais | Não iniciada | — | — | — | Pendente |
 | 3 — IA local | Não iniciada | — | — | — | Pendente |
 | 4 — Resumos e questões | Não iniciada | — | — | — | Pendente |
@@ -273,3 +273,53 @@ O Codex pode ler este arquivo dentro do repositório. **Esta conversa não monit
 - Verificação manual no Windows: API e Vite iniciados e exercitados por HTTP; inspeção visual pelo navegador não concluída. Janela Tauri não executada.
 - Pendências e limitações: Rust/Cargo não instalado neste ambiente; janela nativa e build Tauri não foram validados. `Invoke-WebRequest` OPTIONS e a captura pelo navegador não funcionaram neste ambiente; o preflight foi verificado por `fetch` e a resposta CORS correta foi observada. A consulta de sockets via `Get-NetTCPConnection` foi negada pelo sandbox; `netstat` confirmou o bind em `127.0.0.1`.
 - Próxima ação: validar a janela Tauri em ambiente com Rust/MSVC e revisar a etapa. Não iniciar a Etapa 2 sem autorização.
+
+### 2026-11-23 — Etapa 1 — Validação de build e integração
+- Status: Em validação; janela desktop e console não puderam ser verificados, então a etapa não está aguardando aprovação final.
+- Branch: `feat/estrutura-inicial`, branch local criada nesta execução a partir de `ec18016`; o checkout estava limpo na `main`, sem referência local/remota `feat/estrutura-inicial` após o merge da PR #1.
+- Commit ou PR: nenhum criado nesta execução. HEAD existente: `ec18016` (merge da PR #1), que inclui `5a9fde8` (`feat: estrutura inicial`); `origin/main` aponta para `ec18016`.
+- Implementado/corrigido: testes FastAPI migrados de `TestClient` para `httpx.AsyncClient` com `ASGITransport`; conexões SQLite agora são fechadas explicitamente; testes frontend verificam tema escuro inicial e navegação Início/Configurações.
+- Testes: `backend/.venv/Scripts/python.exe -m pytest -W default` — 5 passaram sem avisos; `npm.cmd run test` — 3 passaram; `npm.cmd run lint` — passou; `npm.cmd run build` — passou (TypeScript e Vite); `git diff --check` — passou. API em `127.0.0.1:8001` retornou health 200, preflight CORS 200 para `127.0.0.1:1421` e configuração `dark` após atualização e reinício; Vite em `127.0.0.1:1421` respondeu HTTP 200.
+- Verificação manual no Windows: MSVC Build Tools 18 instalado e `cl.exe` executado (19.51.36260); Windows SDK 10.0.26100 e WebView2 Runtime 157.0.4341.60 encontrados. Inspeção visual e janela nativa pendentes; o acesso automatizado ao navegador não estava disponível. Build Tauri, executado da raiz, falhou em `cargo metadata` porque Cargo/Rust não estão instalados. As portas 1420 e 8000 já estavam ocupadas; os processos existentes não foram encerrados.
+- Pendências e limitações: disponibilizar Rust com alvo MSVC e validar build/`tauri dev`, janela, aparência visual e console. Tema e navegação foram cobertos por testes automatizados, não por inspeção da janela nativa. Não foi possível declarar os critérios da Etapa 1 atendidos.
+- Próxima ação: instalar/configurar Rust/Cargo no ambiente e repetir build e execução Tauri; validar visualmente antes de pedir aprovação. Não iniciar a Etapa 2.
+
+### 2026-11-23 — Etapa 1 — Caminhos Tauri após reorganização
+- Status: Em validação; não houve confirmação de compilação ou execução da janela Tauri.
+- Branch: `feat/estrutura-inicial`; checkout no diretório raiz do RevisAI. A branch local permanece na base `ec18016`, compartilhada com `origin/main`.
+- Commit ou PR: nenhum novo commit ou PR nesta execução; commits visíveis: `ec18016` (HEAD e `origin/main`), `5a9fde8` (`feat: estrutura inicial`) e `2a5a3fe` (Etapa 0).
+- Implementado/corrigido: validada a estrutura `frontend/src-tauri`; `beforeDevCommand.cwd` e `beforeBuildCommand.cwd` em `..` resolvem para `frontend/`; `frontendDist` em `../dist` resolve para `frontend/dist/`. O comando de desenvolvimento documentado agora usa `frontend/src-tauri/tauri.conf.json`. `.gitignore` cobre o target Tauri nessa localização e ESLint ignora `**/target/**`, evitando lint em JavaScript gerado.
+- Testes: resolução PowerShell confirmou `package.json`, `frontend/dist/index.html` e `frontend/src-tauri/Cargo.toml`; Vite iniciado do `cwd` `frontend`, porta isolada 1422, serviu HTTP 200 e foi encerrado; backend `pytest -W default` — 5 passaram sem avisos; frontend `npm.cmd run test` — 3 passaram; `npm.cmd run lint` — passou após ignorar artefatos `target`; `npm.cmd run build` — passou; `npm.cmd run tauri -- build --debug --no-bundle --config .\src-tauri\tauri.conf.json` reconheceu o projeto, mas parou em `cargo metadata` antes dos hooks porque Cargo não está instalado; `git diff --check` — passou.
+- Verificação manual no Windows: build de assets frontend passou; janela nativa não foi aberta. Não houve inspeção de console da janela.
+- Pendências e limitações: instalar/configurar Rust/Cargo com alvo MSVC e repetir o build e `tauri dev`. A Etapa 1 deve permanecer em validação até a execução real da janela Tauri.
+- Próxima ação: disponibilizar Rust/Cargo e validar a janela; não iniciar a Etapa 2.
+
+### 2026-11-23 — Etapa 1 — Ícones Windows do Tauri
+- Status: Em validação; o arquivo ausente foi gerado, mas build e execução da janela seguem sem validação.
+- Branch: `feat/estrutura-inicial`, diretório principal do repositório.
+- Commit ou PR: nenhum novo commit ou PR. HEAD atual `ec18016`; commits anteriores visíveis `5a9fde8` e `2a5a3fe`.
+- Implementado/corrigido: inspecionada `frontend/src-tauri` e confirmado que não havia diretório `icons`; criada arte vetorial provisória do RevisAI e usada a CLI oficial `npm.cmd run tauri -- icon .\src-tauri\icons\revisai-provisional.svg --output .\src-tauri\icons`. O conjunto gerado inclui `icon.ico` e PNGs/ícones de plataformas suportadas.
+- Testes: comando oficial de geração de ícones passou; `Test-Path` confirmou `frontend/src-tauri/icons/icon.ico` (15.678 bytes); `git check-ignore` confirmou que os ícones não são ignorados. `cargo check --manifest-path .\src-tauri\Cargo.toml` falhou porque `cargo` não é reconhecido neste executor; `npm.cmd run tauri -- dev --config .\src-tauri\tauri.conf.json` parou em `cargo metadata` (“program not found”). `git diff --check` passou.
+- Verificação manual no Windows: ícone conferido visualmente; a janela Tauri não foi compilada nem aberta. O diretório `frontend/src-tauri` está não rastreado no estado atual; nenhum arquivo foi staged ou commitado.
+- Pendências e limitações: Rust/Cargo não estão acessíveis no executor. Os ícones não estão ainda no HEAD/index; devem ser incluídos em commit futuro autorizado junto com a estrutura Tauri. Não foi possível confirmar correção total do build nem execução da janela.
+- Próxima ação: executar `cargo check` e `tauri dev` em ambiente com Rust/Cargo, revisar a janela e manter Etapa 1 em validação até essa confirmação. Não iniciar Etapa 2.
+
+### 2026-11-23 — Etapa 1 — EBUSY do watcher Vite durante build Rust
+- Status: Em validação; a falha do watcher foi corrigida e testada, mas não houve abertura da janela Tauri.
+- Branch: `feat/estrutura-inicial`, no diretório principal.
+- Commit ou PR: nenhum novo; HEAD `ec18016` (`origin/main`), seguido no histórico por `5a9fde8` e `2a5a3fe`.
+- Implementado/corrigido: `frontend/vite.config.ts` agora exclui `**/src-tauri/target/**` do watcher para o Vite não tentar observar DLLs que o Cargo mantém bloqueadas durante a compilação.
+- Testes: frontend `npm.cmd run test` — 3 passaram; `npm.cmd run lint` — passou; `npm.cmd run build` — passou. Regressão: mantive `revisai_lib.dll` aberta com `FileShare.None`, iniciei Vite em `127.0.0.1:1420`, confirmei pronto e HTTP 200, e encerrei ambos os processos. `git diff --check` — passou. `cargo check` e Tauri dev ainda falham antes da compilação porque Cargo não está disponível neste executor.
+- Verificação manual no Windows: o log do usuário confirmou `EBUSY` tentando observar `frontend/src-tauri/target/.../revisai_lib.dll`; a reprodução local com arquivo bloqueado não repetiu o erro após a exclusão. A janela não foi aberta.
+- Pendências e limitações: executar novamente `npm.cmd run tauri -- dev --config .\src-tauri\tauri.conf.json` no VS Code do usuário, onde Rust/Cargo estão instalados, e confirmar janela e console. Não iniciar Etapa 2.
+- Próxima ação: aguardar validação real da janela e manter Etapa 1 em validação até então.
+
+### 2026-11-23 — Etapa 1 — Aprovação e encerramento
+- Status: Concluída após aprovação explícita do usuário.
+- Branch: `feat/estrutura-inicial`, no diretório principal; HEAD inicial desta execução `ec18016` (`origin/main`).
+- Commit ou PR: commit `b515927cd8e0877eeb6d5e6470d5a21b8f20819c` (`feat: conclui fundacao desktop do RevisAI`), enviado a `origin/feat/estrutura-inicial`; [PR #2](https://github.com/augusto-hog/RevisAI/pull/2) está aberto contra `main` e com estado `CLEAN`. O PR #1 anterior está merged e pertence à entrega anterior. Nenhum merge foi executado.
+- Implementado: fundação Tauri 2 + React/TypeScript/Vite/Tailwind + FastAPI/SQLite, interface escura, navegação, configurações persistentes, ícones Tauri e exclusão dos artefatos Cargo do watcher Vite.
+- Testes: `backend\.venv\Scripts\python.exe -m pytest -W default` — 5 passaram; `npm.cmd run test` — 3 passaram; `npm.cmd run lint` — passou; `npm.cmd run build` — passou (TypeScript e Vite); `git diff --check` e `git diff --cached --check` — passaram. `.gitignore` verificado para `.env`, banco SQLite, diretórios privados/materiais, modelos, `node_modules`, `.venv`, `frontend/src-tauri/target` e schemas gerados; ícones e arquivos de configuração Tauri permanecem versionáveis.
+- Verificação manual no Windows: o usuário confirmou `revisai.exe`, janela sem erros, tema escuro, navegação, conexão FastAPI, persistência das preferências após reiniciar e ausência de erros durante uso.
+- Pendências e limitações: `cargo check` não pôde ser executado neste executor porque Cargo não está no PATH; o usuário confirmou manualmente a compilação/execução e os critérios visuais no Windows. `gh auth status` e `git ls-remote origin HEAD` passaram fora do sandbox; nenhuma credencial foi copiada ou alterada. Nenhum problema pendente de implementação foi identificado.
+- Próxima ação: aguardar revisão do PR #2; não fazer merge nem iniciar a Etapa 2 sem autorização.
