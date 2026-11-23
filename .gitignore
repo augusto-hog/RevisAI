@@ -1,0 +1,72 @@
+# Dependências e artefatos gerados
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+.eggs/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Rust e Tauri
+/target/
+/src-tauri/target/
+/src-tauri/gen/
+
+# Ambiente e credenciais
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# Dados e bancos locais
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+/data/
+/backend/data/
+/app-data/
+/storage/
+
+# Materiais privados/importados
+/private/
+/materials/
+/materiais/
+/uploads/
+
+# Modelos e cache de IA local
+/models/
+/ollama/
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.bin
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
