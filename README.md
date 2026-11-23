@@ -4,7 +4,7 @@
 
 RevisAI é um projeto pessoal de portfólio: um aplicativo desktop para Windows que pretende ajudar estudantes e candidatos a concursos a organizar os estudos, praticar e revisar assuntos com apoio de inteligência artificial local.
 
-> **Status:** Etapa 0 concluída. A fundação da Etapa 1 está implementada e em validação; o aplicativo desktop nativo ainda não foi executado neste ambiente. Os recursos descritos como planejados seguem fora do escopo concluído.
+> **Status:** Etapas 0 e 1 concluídas. A fundação desktop foi aprovada e validada no Windows: o executável `revisai.exe` inicia, a janela Tauri abre em tema escuro, a navegação e a comunicação com FastAPI funcionam, e as preferências persistem após reinício. Testes automatizados do backend e frontend, lint e build do frontend também foram executados. Recursos das etapas seguintes permanecem planejados.
 
 ## Objetivo
 
@@ -50,7 +50,7 @@ Em projetos de concurso, a estrutura extraída do edital deverá ser revisada pe
 ## Roadmap
 
 - [x] **Etapa 0:** repositório, documentação e padrões de trabalho.
-- [ ] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura — em validação.
+- [x] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura — concluída e aprovada.
 - [ ] **Etapa 2:** projetos de estudo e importação de materiais.
 - [ ] **Etapa 3:** integração com Ollama e organização de tópicos.
 - [ ] **Etapa 4:** geração de resumos, questões e correções.
@@ -61,7 +61,7 @@ O detalhamento e os critérios de aceite estão em [docs/ROADMAP.md](docs/ROADMA
 
 ## Executar localmente
 
-O backend local e a interface web de desenvolvimento estão implementados; os testes automatizados da Etapa 1 passaram. A abertura da janela Tauri ainda aguarda validação em um ambiente com Rust/MSVC. Consulte [Desenvolvimento local](docs/DEVELOPMENT.md) para os comandos e requisitos.
+A base local foi validada no Windows: o aplicativo desktop abre, o tema escuro e a navegação funcionam, a API FastAPI responde e as preferências persistem após reiniciar. Os testes automatizados, lint e build do frontend foram executados. Consulte [Desenvolvimento local](docs/DEVELOPMENT.md) para os comandos e requisitos.
 
 ## Princípios
 

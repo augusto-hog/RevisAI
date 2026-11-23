@@ -37,7 +37,9 @@ htmlcov/
 # Rust e Tauri
 /target/
 /src-tauri/target/
+/frontend/src-tauri/target/
 /src-tauri/gen/
+/frontend/src-tauri/gen/
 
 # Ambiente e credenciais
 .env
