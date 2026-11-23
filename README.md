@@ -4,7 +4,7 @@
 
 RevisAI é um projeto pessoal de portfólio: um aplicativo desktop para Windows que pretende ajudar estudantes e candidatos a concursos a organizar os estudos, praticar e revisar assuntos com apoio de inteligência artificial local.
 
-> **Status:** Etapa 0 aprovada e concluída; as etapas de implementação ainda não foram iniciadas. As funcionalidades descritas como planejadas ainda não estão implementadas.
+> **Status:** Etapa 0 concluída. A fundação da Etapa 1 está implementada e em validação; o aplicativo desktop nativo ainda não foi executado neste ambiente. Os recursos descritos como planejados seguem fora do escopo concluído.
 
 ## Objetivo
 
@@ -50,18 +50,18 @@ Em projetos de concurso, a estrutura extraída do edital deverá ser revisada pe
 ## Roadmap
 
 - [x] **Etapa 0:** repositório, documentação e padrões de trabalho.
-- [ ] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura.
+- [ ] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura — em validação.
 - [ ] **Etapa 2:** projetos de estudo e importação de materiais.
 - [ ] **Etapa 3:** integração com Ollama e organização de tópicos.
 - [ ] **Etapa 4:** geração de resumos, questões e correções.
 - [ ] **Etapa 5:** revisão de pontos fracos e metas semanais.
 - [ ] **Etapa 6:** leitura de editais, OCR, testes e instalador Windows.
 
-O detalhamento e os critérios de aceite estão em [docs/ROADMAP.md](docs/ROADMAP.md). O roteiro de implementação está em [CODEX_PLANO.md](CODEX_PLANO.md).
+O detalhamento e os critérios de aceite estão em [docs/ROADMAP.md](docs/ROADMAP.md). O roteiro de implementação está em [CODEX_PLANO.md](CODEX_PLANO.md). Os comandos de desenvolvimento e limites de segurança estão em [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Executar localmente
 
-A execução local ainda não está disponível. As instruções serão adicionadas depois que a fundação da aplicação for implementada e validada no Windows.
+O backend local e a interface web de desenvolvimento estão implementados; os testes automatizados da Etapa 1 passaram. A abertura da janela Tauri ainda aguarda validação em um ambiente com Rust/MSVC. Consulte [Desenvolvimento local](docs/DEVELOPMENT.md) para os comandos e requisitos.
 
 ## Princípios
 
