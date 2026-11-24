@@ -2,7 +2,7 @@
 
 > **Projeto:** RevisAI ("revisa aí")
 > **Repositório desejado:** `RevisAI`, público no GitHub
-> **Situação atual:** Etapas 0 e 1 aprovadas e concluídas; Etapa 1 na branch `feat/estrutura-inicial`, com commit e publicação autorizados pelo usuário nesta execução.
+> **Situação atual:** Etapas 0, 1 e 2 concluídas e aprovadas; Etapa 2 foi entregue na branch `feat/biblioteca-estudos`. Etapa 3 planejada, ainda não iniciada.
 > **Fonte de requisitos:** [`CODEX_PLANO.md`](./CODEX_PLANO.md)
 > **Apresentação do portfólio:** [`README.md`](./README.md)
 
@@ -84,7 +84,7 @@ Alternativa: crie um repositório vazio `RevisAI` no site do GitHub, sem gerar u
 |---|---|---|---|
 | 0 | `main` (exceção: preparação feita diretamente na branch existente) | Git, README, AGENTS.md e padrões | Concluída |
 | 1 | `feat/estrutura-inicial` | Tauri, React, FastAPI, SQLite e interface inicial | Concluída |
-| 2 | `feat/projetos-materiais` | Projetos e biblioteca | Não iniciada |
+| 2 | `feat/biblioteca-estudos` | Hierarquia de estudos, projetos e biblioteca local | Concluída |
 | 3 | `feat/ia-organizacao` | Ollama e sugestão de tópicos | Não iniciada |
 | 4 | `feat/resumos-questoes` | Resumos, questões e correção (MVP) | Não iniciada |
 | 5 | `feat/revisoes-metas` | Revisões e metas semanais | Não iniciada |
@@ -204,7 +204,7 @@ Evite frases como “totalmente pronto” ou “100% offline” sem testar todo 
 |---|---|---|---|---|---|
 | 0 — Git e documentação | Concluída | `main` | `cb1b02c`; `2a5a3fe` (`docs: conclui etapa 0 e organiza estrutura do projeto`) | `git diff --check` passou; `git check-ignore -v` confirmou regras para segredos, banco, dados privados, modelos e builds; sem testes de aplicação | Aprovada pelo usuário em 2026-11-23 |
 | 1 — Base desktop | Concluída | `feat/estrutura-inicial` | `b515927cd8e0877eeb6d5e6470d5a21b8f20819c`; [PR #2](https://github.com/augusto-hog/RevisAI/pull/2) aberto para `main` | Backend: 5 testes; frontend: 3 testes; lint, build e `git diff --check` passaram. `.gitignore` validado para dados privados e artefatos. Execução Tauri, janela, tema, navegação, FastAPI, persistência e ausência de erros confirmados manualmente pelo usuário no Windows. | Aprovada pelo usuário em 2026-11-23 |
-| 2 — Materiais | Não iniciada | — | — | — | Pendente |
+| 2 — Estudos e biblioteca | Concluída | `feat/biblioteca-estudos` | Commit e PR a registrar após publicação | Backend: 23 testes; frontend: 11 testes; lint, TypeScript, build Vite, migrações em SQLite temporário e `git diff --check` passaram. Revisão Alembic `0004_project_kind`. | Aprovada formalmente pelo usuário em 2026-11-24; criação/edição, hierarquia, materiais, texto extraído e persistência após reinício validados |
 | 3 — IA local | Não iniciada | — | — | — | Pendente |
 | 4 — Resumos e questões | Não iniciada | — | — | — | Pendente |
 | 5 — Revisões e metas | Não iniciada | — | — | — | Pendente |
@@ -323,3 +323,61 @@ O Codex pode ler este arquivo dentro do repositório. **Esta conversa não monit
 - Verificação manual no Windows: o usuário confirmou `revisai.exe`, janela sem erros, tema escuro, navegação, conexão FastAPI, persistência das preferências após reiniciar e ausência de erros durante uso.
 - Pendências e limitações: `cargo check` não pôde ser executado neste executor porque Cargo não está no PATH; o usuário confirmou manualmente a compilação/execução e os critérios visuais no Windows. `gh auth status` e `git ls-remote origin HEAD` passaram fora do sandbox; nenhuma credencial foi copiada ou alterada. Nenhum problema pendente de implementação foi identificado.
 - Próxima ação: aguardar revisão do PR #2; não fazer merge nem iniciar a Etapa 2 sem autorização.
+
+### 2026-11-24 — Etapa 2A — Commit da revisão Alembic em SQLite
+- Status: Tecnicamente concluída, aguardando revisão; a Etapa 2 geral permanece Em andamento.
+- Branch: `feat/biblioteca-estudos`; diretório principal; base `04abe19` integrada na `main`.
+- Commit ou PR: nenhum, conforme instrução.
+- Implementado/corrigido: transação Alembic confirmada explicitamente ao redor da execução online; tabelas SQLite não transacionais e linha da revisão agora persistem juntas corretamente. Hierarquia usa ordem estável `(position, id)`, detalhe Pydantic aninhado e eager loading apenas de disciplinas/assuntos/tópicos. Testes abrangem CRUD, hierarquia vazia/completa, ordem dos três níveis, IDs inválidos, cascata, isolamento e reinicialização.
+- Testes: `backend/.venv/Scripts/python.exe -m pytest -W default` — 9 passaram. O teste de banco vazio verifica `projects`, `disciplines`, `subjects`, `topics` e `alembic_version=0002_study_library`; não acessa nem altera o banco local do usuário. `git diff --check` passou.
+- Avisos/limitações: permanece aviso de depreciação do próprio PyMuPDF para `typing.ByteString` (remoção prevista em Python 3.17); a troca de `fitz` para `pymupdf` removeu apenas o aviso da API antiga. Não existe lint backend configurado.
+- Próxima ação: revisar manualmente a subetapa 2A; manter a Etapa 2 geral em andamento e não iniciar 2B/2C/3 sem autorização.
+- Próxima ação: corrigir a falha da resposta de hierarquia e repetir toda a suíte. Não iniciar Etapa 2B, 2C ou Etapa 3.
+
+### 2026-11-24 - Etapa 2B - Backend da biblioteca de materiais
+- Status: aprovada tecnicamente pelo usuario; Etapa 2 geral permanece Em andamento.
+- Branch: `feat/biblioteca-estudos`; sem commit, push, PR ou merge.
+- Implementado: upload local de PDF/DOCX/TXT/PNG/JPG/JPEG; validacao de extensao e conteudo (Pillow valida imagens); limite configuravel por `REVISAI_MAX_UPLOAD_BYTES` (padrao 25 MiB); nome original seguro nos metadados; SHA-256 e armazenamento fisico unico compartilhado entre projetos; exclusao segura da associacao; metadados, consulta de texto, reprocessamento e estados de imagem sem OCR/PDF escaneado. Rotas escopadas por projeto. Migracao 0003 vincula blobs e preserva registros e arquivos existentes.
+- Testes: `backend/.venv/Scripts/python.exe -m pytest -q` - 21 aprovados. Alembic validado em banco SQLite temporario novo e banco legado temporario; revisao `0003_shared_material_blobs` confirmada. `git diff --check` passou.
+- Frontend: chamada de exclusao atualizada para enviar `projectId`; npm.cmd run test (3 aprovados), npm.cmd run lint e npm.cmd run build (tsc e Vite) passaram fora do sandbox.
+- Limitacoes: OCR nao implementado; duplicatas fisicas preexistentes da implementacao parcial sao preservadas durante a migracao (novos uploads deduplicam); PyMuPDF emite aviso upstream sobre `typing.ByteString`; nao ha lint Python configurado. Interface e validacao manual Windows pertencem a 2C.
+- Proxima acao: revisar a 2B; manter Etapa 2 em andamento e nao iniciar 2C sem autorizacao.
+
+### 2026-11-24 - Etapa 2C - Interface de estudos e biblioteca
+- Status: implementacao e verificacoes automatizadas concluidas; Etapa 2 em validacao, aguardando validacao manual no Windows.
+- Branch: `feat/biblioteca-estudos`; sem commit, push, PR ou merge.
+- Implementado: navegação ativa para Meus Estudos; listagem, criação, edição, abertura e exclusão confirmada de projetos; hierarquia expansível com CRUD e reordenação de disciplinas, assuntos e tópicos; biblioteca no detalhe do projeto com upload, progresso, limite anunciado pela API, metadados, consulta de texto, mensagens de PDF digitalizado/imagem sem OCR e exclusão confirmada. Erros HTTP do FastAPI são mostrados na interface. O contrato do frontend foi alinhado aos endpoints reais. O backend local usa `127.0.0.1:8765` por padrão, evitando a porta 8000 usada pelo Django do usuário; `VITE_API_URL` permite mudar a URL, e o CSP Tauri permite 8765.
+- Testes: backend `python -m pytest -q` - 21 passaram (um aviso upstream do PyMuPDF); frontend `npm.cmd run test` - 10 passaram; `npm.cmd run lint`, `npm.cmd exec -- tsc -b`, `npm.cmd run build` e `git diff --check` passaram. Migrações SQLite nova e legado estão cobertas; `alembic heads` retorna `0003_shared_material_blobs`.
+- Tauri: `%USERPROFILE%\.cargo\bin` existia, mas não estava no PATH do PowerShell. Ao adicionar o caminho apenas à sessão, `cargo metadata` e `cargo check -j 1` passaram (Cargo/rustc 1.100.0 stable MSVC). A primeira execução Tauri no sandbox foi bloqueada pelo esbuild; fora do sandbox, Vite iniciou e os 343 crates compilaram, abrindo `revisai.exe`. Backend temporário em 8765 respondeu health OK. Na janela: dark mode, API, criação de projeto/disciplina/assunto/tópico, importação/extração de TXT, metadados e exclusão confirmada passaram. Após fechar e reabrir, hierarquia persistida foi confirmada pela API e interface. O teste usou banco em `%TEMP%`; não alterou o banco normal do usuário. `git diff --check` passou.
+- Pendência manual: o roteiro não importou três documentos nem exercitou todos os formatos na janela. Portanto a Etapa 2 segue **Em validação**; não marcar como concluída até validação integral do aceite.
+- Próxima ação: repetir no VS Code do usuário com `$env:PATH = "$env:USERPROFILE\.cargo\bin;$env:PATH"` quando Cargo não estiver acessível; executar o roteiro completo de três documentos, formatos e persistência. Manter Etapa 2 em validação; não iniciar Etapa 3.
+
+### 2026-11-24 — Correção de coluna ausente em banco legado
+- Status: correção e regressão verificadas; Etapa 2 continua Em validação até o aceite manual integral.
+- Branch: `feat/biblioteca-estudos`; alterações existentes preservadas.
+- Causa: `0002_study_library` não adicionava `projects.kind` quando a tabela `projects` já existia; `0003_shared_material_blobs` não cobria essa coluna. A consulta de projetos falhava ao selecionar `projects.kind`.
+- Implementado: nova migração aditiva `0004_project_kind`, com valor padrão `livre`, sem recriar tabela ou perder linhas; teste legado confirma preservação do projeto, resposta da API e revisão em `alembic_version`.
+- Testes: `backend/.venv/Scripts/python.exe -m pytest backend/tests -q` — 22 passaram. Aviso de depreciação vindo do PyMuPDF (`typing.ByteString`) permanece. Verificações Git registradas após execução.
+- Pendências: nenhuma adicional para esta correção. Permanecem pendentes os critérios manuais já anotados para a Etapa 2. Sem commit, push ou merge.
+
+### 2026-11-24 — Etapa 2 — Validação complementar da interface
+- Status: Aguardando aprovação do usuário após a confirmação do teste final de persistência.
+- Branch: `feat/biblioteca-estudos`; HEAD existente `04abe19` (`Merge pull request #2...`); alterações continuam sem commit.
+- Commit ou PR: nenhum criado nesta execução.
+- Implementado/corrigido: teste de integração frontend cobre renomear e reordenar disciplina, assunto e tópico por chamadas de API mockadas. O CORS da API permite `PUT` para reordenação; o preflight agora tem regressão automatizada porque a janela revelou que essa chamada era bloqueada.
+- Testes automatizados: `backend/.venv/Scripts/python.exe -m pytest -q` — 23 passaram (aviso upstream do PyMuPDF sobre `typing.ByteString`); `npm.cmd run test` — 11 passaram; `npm.cmd run lint`, TypeScript/build Vite e migração SQLite temporária para Alembic `0004_project_kind` verificados; `git diff --check` verificado após as alterações documentais.
+- Verificação na janela Windows: tema escuro e API conectada; edições de disciplina, assunto e tópico; reordenação nos três níveis; importação de PDF, DOCX, TXT, PNG e JPG no projeto temporário; metadados de nome, tipo, tamanho e data; texto de PDF (com separação entre páginas) e DOCX exibidos; imagens informadas como sem OCR; arquivo PDF inválido/corrompido rejeitado com mensagem. O mesmo projeto listou cinco documentos.
+- Persistência: após reiniciar o processo FastAPI temporário, a API voltou a listar a hierarquia e os cinco materiais no mesmo SQLite temporário; status e textos extraídos foram recuperados. Depois, o usuário confirmou o último teste: fechou e reabriu backend e frontend e os dados persistiram.
+- Reteste da janela: `npm.cmd run tauri -- dev` compilou e iniciou `revisai.exe` com configuração temporária em 1422 e API em 8766. O backend registrou health 200; porém, a captura do executor permaneceu na tela de bloqueio do Windows e a ativação da janela foi recusada. Não conto isso como confirmação visual após reabertura.
+- Pendências e limitações: resta a aprovação formal da Etapa 2. Um aviso de depreciação do PyMuPDF permanece upstream. Nenhum banco ou documento de teste foi adicionado ao repositório.
+- Próxima ação: aguardar aprovação formal; não avançar para Etapa 3.
+
+### 2026-11-24 — Etapa 2 — Aprovação e entrega
+- Status: Concluída após aprovação formal do usuário.
+- Branch: `feat/biblioteca-estudos`.
+- Commit ou PR: a registrar após criação do commit, publicação da branch e abertura do PR.
+- Implementado: projetos e biblioteca local; hierarquia completa com edição e reordenação; importação, metadados, texto extraído e persistência local. A Etapa 3 continua planejada e não iniciada.
+- Testes: backend — 23 passaram; frontend — 11 passaram; lint, TypeScript, build Vite, migrações SQLite temporárias e `git diff --check` passaram. Aviso upstream do PyMuPDF sobre `typing.ByteString` permanece.
+- Verificação manual no Windows: usuário aprovou a Etapa 2 e confirmou criação/edição de projetos, hierarquia, importação de documentos, consulta de texto e persistência após reinício.
+- Pendências e limitações: nenhuma pendência da Etapa 2; OCR não faz parte desta etapa. A Etapa 3 não foi iniciada.
+- Próxima ação: aguardar revisão e merge do pull request; não avançar para a Etapa 3 nesta execução.

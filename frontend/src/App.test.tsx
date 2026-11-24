@@ -1,9 +1,9 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 
 const health = { status: 'ok', database: 'ok', version: '0.1.0' }
-const settings = { theme: 'dark', data_directory: 'C:/Users/test/AppData/Local/RevisAI' }
+const settings = { theme: 'dark', data_directory: 'C:/Users/test/AppData/Local/RevisAI', max_upload_bytes: 25 * 1024 * 1024 }
 
 function mockApi() {
   return vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -31,7 +31,7 @@ describe('RevisAI foundation', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Sistema conectado')
     expect(screen.getByText(/API e banco SQLite respondendo/)).toBeInTheDocument()
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark')
-    expect(screen.getByRole('button', { name: /Meus Estudos/ })).toBeDisabled()
+    expect(within(screen.getByRole('navigation', { name: 'Seções do aplicativo' })).getByRole('button', { name: 'Meus Estudos' })).toBeEnabled()
   })
 
   it('persists the selected theme through the settings screen', async () => {

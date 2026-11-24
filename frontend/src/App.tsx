@@ -20,12 +20,12 @@ import {
   Target,
 } from 'lucide-react'
 import { api, type AppSettings, type Health, type Theme } from './api'
+import { StudiesPage } from './features/studies/StudiesPage'
 
-type Page = 'home' | 'settings'
+type Page = 'home' | 'studies' | 'settings'
 type Connection = 'checking' | 'online' | 'offline'
 
 const futureNavigation = [
-  { label: 'Meus Estudos', icon: FolderOpen, note: 'Etapa 2' },
   { label: 'Revisões', icon: BookOpenCheck, note: 'Etapa 5' },
   { label: 'Metas', icon: Target, note: 'Etapa 5' },
 ]
@@ -87,6 +87,10 @@ function App() {
             <LayoutDashboard size={18} />
             <span>Início</span>
           </button>
+          <button className={`nav-item ${page === 'studies' ? 'active' : ''}`} onClick={() => setPage('studies')}>
+            <FolderOpen size={18} />
+            <span>Meus Estudos</span>
+          </button>
           {futureNavigation.map(({ label, icon: Icon, note }) => (
             <button className="nav-item future" key={label} disabled title={`Planejado para a ${note}`}>
               <Icon size={18} />
@@ -106,13 +110,13 @@ function App() {
             <ShieldCheck size={16} />
             <span>Seus dados ficam<br />no seu computador.</span>
           </div>
-          <div className="version-label">VERSÃO 0.1.0 · ETAPA 1</div>
+          <div className="version-label">VERSÃO 0.1.0 · ETAPA 2</div>
         </div>
       </aside>
 
       <main className="main-area">
         <header className="topbar">
-          <div className="breadcrumbs"><span>RevisAI</span><ChevronRight size={14} /><strong>{page === 'home' ? 'Início' : 'Configurações'}</strong></div>
+          <div className="breadcrumbs"><span>RevisAI</span><ChevronRight size={14} /><strong>{page === 'home' ? 'Início' : page === 'studies' ? 'Meus Estudos' : 'Configurações'}</strong></div>
           <div className={`connection-pill ${connection}`} role="status" aria-live="polite">
             <span className="connection-dot" />
             {connection === 'checking' ? 'Verificando API' : connection === 'online' ? 'Sistema conectado' : 'API indisponível'}
@@ -120,7 +124,9 @@ function App() {
         </header>
 
         {page === 'home' ? (
-          <HomePage connection={connection} health={health} onRefresh={() => void refreshStatus()} />
+          <HomePage connection={connection} health={health} onRefresh={() => void refreshStatus()} onOpenStudies={() => setPage('studies')} />
+        ) : page === 'studies' ? (
+          <StudiesPage maxUploadBytes={settings?.max_upload_bytes ?? 25 * 1024 * 1024} />
         ) : (
           <SettingsPage
             connection={connection}
@@ -137,7 +143,7 @@ function App() {
   )
 }
 
-function HomePage({ connection, health, onRefresh }: { connection: Connection; health: Health | null; onRefresh: () => void }) {
+function HomePage({ connection, health, onRefresh, onOpenStudies }: { connection: Connection; health: Health | null; onRefresh: () => void; onOpenStudies: () => void }) {
   return (
     <div className="page-content">
       <div className="page-heading">
@@ -169,7 +175,7 @@ function HomePage({ connection, health, onRefresh }: { connection: Connection; h
       </div>
 
       <div className="overview-grid" aria-label="Resumo das áreas de estudo">
-        <OverviewCard icon={FolderOpen} label="Projetos de estudo" stage="ETAPA 2" text="Seus estudos organizados por projeto." />
+        <OverviewCard icon={FolderOpen} label="Projetos de estudo" stage="ETAPA 2" text="Seus estudos organizados por projeto." actionLabel="Abrir Meus Estudos" onAction={onOpenStudies} />
         <OverviewCard icon={BookOpenCheck} label="Revisões" stage="ETAPA 5" text="Pontos importantes para rever." />
         <OverviewCard icon={Target} label="Meta semanal" stage="ETAPA 5" text="Um plano que cabe na sua rotina." />
       </div>
@@ -191,12 +197,12 @@ function HomePage({ connection, health, onRefresh }: { connection: Connection; h
   )
 }
 
-function OverviewCard({ icon: Icon, label, stage, text }: { icon: typeof FolderOpen; label: string; stage: string; text: string }) {
+function OverviewCard({ icon: Icon, label, stage, text, actionLabel, onAction }: { icon: typeof FolderOpen; label: string; stage: string; text: string; actionLabel?: string; onAction?: () => void }) {
   return (
     <article className="overview-card">
       <div className="overview-card-top"><div className="overview-icon"><Icon size={17} /></div><span>{stage}</span></div>
       <h3>{label}</h3><p>{text}</p>
-      <div className="overview-card-bottom"><span>Disponível em breve</span><ArrowUpRight size={15} /></div>
+      <div className="overview-card-bottom">{actionLabel && onAction ? <button className="overview-action" onClick={onAction}>{actionLabel}<ArrowUpRight size={14} /></button> : <><span>Disponível em breve</span><ArrowUpRight size={15} /></>}</div>
     </article>
   )
 }
@@ -248,7 +254,7 @@ function SettingsPage({
         <div className="settings-section-content">
           <div className="eyebrow">SISTEMA</div>
           <h2 id="system-title">Conexão com o backend</h2>
-          <p>O frontend conversa apenas com a API local do RevisAI.</p>
+          <p>O frontend conversa com a API local do RevisAI na porta 8765.</p>
           <div className="system-status-row">
             <span className={`status-indicator ${connection}`} />
             <span>{connection === 'online' ? `Conectado · API ${health?.version}` : connection === 'checking' ? 'Verificando conexão…' : 'API indisponível'}</span>
