@@ -4,7 +4,7 @@
 
 RevisAI é um projeto pessoal de portfólio: um aplicativo desktop para Windows que pretende ajudar estudantes e candidatos a concursos a organizar os estudos, praticar e revisar assuntos com apoio de inteligência artificial local.
 
-> **Status:** Etapas 0, 1 e 2 concluídas e aprovadas. A Etapa 2 foi validada no Windows, incluindo projetos, hierarquia, biblioteca local e persistência após reinício. A Etapa 3 e os recursos de IA continuam planejados.
+> **Status:** Etapas 0, 1 e 2 concluídas e aprovadas. A Etapa 3 está em andamento; a integração inicial com Ollama (3A) está implementada e em validação técnica. A geração real com um modelo local ainda aguarda confirmação.
 
 ## Objetivo
 
@@ -20,7 +20,7 @@ Ajudar a manter o foco no que estudar e revisar, priorizando materiais fornecido
 
 ## Funcionalidades planejadas
 
-- **Ollama e organização assistida:** sugerir assuntos e tópicos a partir dos materiais (Etapa 3).
+- **Ollama e organização assistida:** a configuração e o teste inicial do modelo local (Etapa 3A) estão em validação; a organização assistida continua planejada.
 - **Materiais:** OCR local para documentos digitalizados e imagens (Etapa 6).
 - **Organização:** sugerir assuntos e tópicos com base nos materiais ou no conteúdo programático de um edital.
 - **Resumos:** gerar explicações didáticas, um tópico por vez, priorizando os documentos enviados.
@@ -38,7 +38,7 @@ Ajudar a manter o foco no que estudar e revisar, priorizando materiais fornecido
 | Interface | Tailwind CSS e shadcn/ui |
 | Backend local | Python e FastAPI |
 | Banco de dados | SQLite |
-| IA local | Ollama, com modelo configurável |
+| IA local | Ollama, com modelo configurável — Etapa 3A em validação |
 | Documentos | PyMuPDF, python-docx e OCR local em etapa futura |
 | Versionamento | Git e GitHub |
 
@@ -60,7 +60,7 @@ Em projetos de concurso, a estrutura extraída do edital deverá ser revisada pe
 - [x] **Etapa 0:** repositório, documentação e padrões de trabalho.
 - [x] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura — concluída e aprovada.
 - [x] **Etapa 2:** projetos, hierarquia e biblioteca local — concluída e aprovada.
-- [ ] **Etapa 3:** integração com Ollama e organização de tópicos.
+- [ ] **Etapa 3:** em andamento; integração inicial com Ollama (3A) em validação, organização de tópicos ainda planejada.
 - [ ] **Etapa 4:** geração de resumos, questões e correções.
 - [ ] **Etapa 5:** revisão de pontos fracos e metas semanais.
 - [ ] **Etapa 6:** leitura de editais, OCR, testes e instalador Windows.
