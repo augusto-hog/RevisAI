@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 APP_NAME = "RevisAI"
+DEFAULT_MAX_UPLOAD_BYTES = 25 * 1024 * 1024
 
 
 def get_data_directory() -> Path:
@@ -21,3 +22,14 @@ def get_data_directory() -> Path:
 
 def get_database_path(data_directory: Path | None = None) -> Path:
     return (data_directory or get_data_directory()) / "revisai.sqlite3"
+
+
+def get_max_upload_bytes() -> int:
+    configured = os.getenv("REVISAI_MAX_UPLOAD_BYTES")
+    if not configured:
+        return DEFAULT_MAX_UPLOAD_BYTES
+    try:
+        value = int(configured)
+    except ValueError:
+        return DEFAULT_MAX_UPLOAD_BYTES
+    return value if value > 0 else DEFAULT_MAX_UPLOAD_BYTES

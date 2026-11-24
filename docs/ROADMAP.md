@@ -1,6 +1,6 @@
 # RevisAI — roadmap
 
-A Etapa 0 (repositório, documentação e padrões de trabalho) e a Etapa 1 (fundação desktop) foram aprovadas pelo usuário e estão concluídas. No Windows, o usuário confirmou a abertura do executável e da janela Tauri, tema escuro, navegação, comunicação com FastAPI, persistência das preferências após reinício e ausência de erros observados. As etapas 2 a 6 não foram iniciadas. Cada etapa deve ser executada e validada antes do início da próxima. As regras permanentes estão em [`AGENTS.md`](../AGENTS.md); o roteiro completo de prompts e rotinas está em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
+As Etapas 0, 1 e 2 foram aprovadas e estao concluidas. A Etapa 2 foi validada na branch `feat/biblioteca-estudos`, incluindo hierarquia, reordenacao, biblioteca e persistencia após reiniciar. Backend: 23 testes; frontend: 11 testes; lint, TypeScript, build e migracoes em SQLite temporario passaram. Alembic esta na revisao `0004_project_kind`. Foram exercitados PDF, DOCX, TXT, PNG e JPG; textos foram exibidos para PDF/DOCX, imagens informaram que OCR sera futuro, e PDF corrompido foi rejeitado. O usuario confirmou a persistencia após reiniciar o aplicativo. A Etapa 3 continua planejada e nao foi iniciada. Cada etapa deve ser revisada antes da seguinte. As regras permanentes estao em [`AGENTS.md`](../AGENTS.md); o roteiro completo esta em [`CODEX_PLANO.md`](../CODEX_PLANO.md).
 
 ## Etapa 1 — Fundação desktop — Concluída
 
@@ -10,7 +10,7 @@ Implementar a base Tauri 2 + Vite + React + TypeScript, Tailwind CSS e interface
 
 ## Etapa 2 — Projetos e biblioteca
 
-Criar projetos com nome, descrição opcional e tipo livre ou concurso; assuntos e tópicos editáveis, ordenáveis e excluíveis com confirmação. Usar SQLAlchemy e migrações. Importar PDF, DOCX e TXT, preservar originais em diretório privado e exibir metadados e estado de processamento. Extrair texto localmente com PyMuPDF e python-docx, detectando PDFs sem texto como `precisa de OCR`. Não implementar OCR. A extração não deve bloquear a interface. Permitir remover materiais e tentar novamente após erro; relacionar texto extraído ao arquivo e às páginas quando possível. Criar endpoints, telas, validações e testes. Não implementar IA.
+Criar projetos e a hierarquia Projeto -> Disciplina -> Assunto -> Topico, com CRUD, reordenacao e persistencia SQLite/Alembic. A Etapa 2 foi aprovada pelo usuario. A biblioteca importa PDF, DOCX, TXT, PNG, JPG e JPEG, valida extensao e conteudo, aplica limite configuravel, armazena localmente, registra metadados e SHA-256, deduplica blobs entre projetos e exclui associacoes com seguranca. Extrai texto com PyMuPDF/python-docx e preserva separacao de paginas PDF quando possivel. PDF sem texto fica marcado para OCR futuro; imagens sao registradas sem OCR. Migrações aditivas preservam bancos existentes. A interface oferece Meus Estudos, CRUD e reordenacao da hierarquia, biblioteca por projeto, consulta de texto e confirmacoes de exclusao. Validacao: 23 testes backend, 11 frontend, lint, TypeScript, build, migracoes SQLite temporarias e verificacoes manuais no Windows aprovados. A Etapa 2 esta Concluida. A Etapa 3 permanece planejada e nao foi iniciada.
 
 **Aceite:** criar o projeto Estoicismo, importar três documentos, ver seus estados e consultar o texto extraído; PDFs escaneados exibem um aviso claro.
 

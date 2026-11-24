@@ -4,16 +4,24 @@
 
 RevisAI é um projeto pessoal de portfólio: um aplicativo desktop para Windows que pretende ajudar estudantes e candidatos a concursos a organizar os estudos, praticar e revisar assuntos com apoio de inteligência artificial local.
 
-> **Status:** Etapas 0 e 1 concluídas. A fundação desktop foi aprovada e validada no Windows: o executável `revisai.exe` inicia, a janela Tauri abre em tema escuro, a navegação e a comunicação com FastAPI funcionam, e as preferências persistem após reinício. Testes automatizados do backend e frontend, lint e build do frontend também foram executados. Recursos das etapas seguintes permanecem planejados.
+> **Status:** Etapas 0, 1 e 2 concluídas e aprovadas. A Etapa 2 foi validada no Windows, incluindo projetos, hierarquia, biblioteca local e persistência após reinício. A Etapa 3 e os recursos de IA continuam planejados.
 
 ## Objetivo
 
 Ajudar a manter o foco no que estudar e revisar, priorizando materiais fornecidos pelo usuário e mantendo dados e processamento no computador. A internet poderá ser necessária para instalação e recursos futuros.
 
+## Funcionalidades disponíveis
+
+- **Meus Estudos:** criar, editar, abrir e excluir projetos; organizar disciplinas, assuntos e tópicos com controles de ordem.
+- **Biblioteca local:** importar PDF, DOCX, TXT, PNG, JPG e JPEG; consultar metadados e texto extraído; os arquivos permanecem no diretório local de dados do usuário.
+- **Extração:** texto extraído de PDF, DOCX e TXT. PDFs sem texto e imagens indicam que OCR ainda não está disponível.
+- **Persistência:** projetos, hierarquia, materiais e preferências ficam no SQLite local; os arquivos importados são armazenados localmente e deduplicados por hash entre projetos.
+- **Configurações:** alternar tema claro/escuro e consultar o diretório de dados local.
+
 ## Funcionalidades planejadas
 
-- **Projetos de estudo:** organizar estudos livres e preparação para concursos.
-- **Materiais:** importar PDF, DOCX, TXT e imagens; OCR local está previsto para uma etapa futura.
+- **Ollama e organização assistida:** sugerir assuntos e tópicos a partir dos materiais (Etapa 3).
+- **Materiais:** OCR local para documentos digitalizados e imagens (Etapa 6).
 - **Organização:** sugerir assuntos e tópicos com base nos materiais ou no conteúdo programático de um edital.
 - **Resumos:** gerar explicações didáticas, um tópico por vez, priorizando os documentos enviados.
 - **Questões:** criar questões de múltipla escolha e certo/errado, com gabarito comentado.
@@ -51,7 +59,7 @@ Em projetos de concurso, a estrutura extraída do edital deverá ser revisada pe
 
 - [x] **Etapa 0:** repositório, documentação e padrões de trabalho.
 - [x] **Etapa 1:** base Tauri + React + FastAPI + SQLite e interface escura — concluída e aprovada.
-- [ ] **Etapa 2:** projetos de estudo e importação de materiais.
+- [x] **Etapa 2:** projetos, hierarquia e biblioteca local — concluída e aprovada.
 - [ ] **Etapa 3:** integração com Ollama e organização de tópicos.
 - [ ] **Etapa 4:** geração de resumos, questões e correções.
 - [ ] **Etapa 5:** revisão de pontos fracos e metas semanais.
@@ -61,7 +69,7 @@ O detalhamento e os critérios de aceite estão em [docs/ROADMAP.md](docs/ROADMA
 
 ## Executar localmente
 
-A base local foi validada no Windows: o aplicativo desktop abre, o tema escuro e a navegação funcionam, a API FastAPI responde e as preferências persistem após reiniciar. Os testes automatizados, lint e build do frontend foram executados. Consulte [Desenvolvimento local](docs/DEVELOPMENT.md) para os comandos e requisitos.
+O aplicativo desktop abriu no Windows e os fluxos principais da Etapa 2 foram exercitados com uma API, banco e documentos descartáveis em `%TEMP%`. A interface permitiu editar e reordenar disciplinas, assuntos e tópicos; importar os cinco formatos suportados; consultar texto extraído de PDF/DOCX e exibir os estados sem OCR de PNG/JPG; e rejeitar um PDF corrompido. O usuário confirmou a persistência após fechar e reabrir backend e frontend. O backend usa a porta **8765** por padrão para não conflitar com serviços Django na 8000. Consulte [Desenvolvimento local](docs/DEVELOPMENT.md) para comandos e resultados detalhados.
 
 ## Princípios
 
